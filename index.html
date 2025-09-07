@@ -301,7 +301,7 @@
       <div class="welcome-content">
         <h1 class="welcome-title">CineVault</h1>
         <p class="welcome-text">Your portal to the cinematic universe. Search, track, and curate your ultimate movie watchlist with futuristic flair.</p>
-        <button id="explore-btn" class="explore-btn">Start Exploring</button>
+        <button id="explore-btn" class="explore-btn">Engage Interface</button>
       </div>
     </div>
 
@@ -341,7 +341,7 @@
             <div class="controls">
               <select id="sort-watchlist" aria-label="Sort Watchlist">
                 <option value="">Sort By...</option> <option value="title">Title (A-Z)</option> <option value="year">Year</option>
-                <!-- <option value="watched">Status</option> -->
+                <option value="watched">Status</option>
               </select>
               <select id="filter-watchlist" aria-label="Filter Watchlist">
                 <option value="">All</option> <option value="watched">Watched</option> <option value="unwatched">Unwatched</option>
@@ -421,20 +421,16 @@
     document.addEventListener("DOMContentLoaded", () => {
         const OMDB_API_KEY = "5bc53758"; 
         const TMDB_API_KEY = "e80eb50b68b06125a715c4bf0f7f9e06";
-        const NEWS_API_KEY = "fc16e59397aa4091a836a068ae0510eb"; // <-- IMPORTANT: ADD YOUR NEWSAPI.ORG KEY HERE
+        const GUARDIAN_API_KEY = "a8244d67-cfac-4c09-968b-e64aec19a3ef"; // NEW KEY FOR GUARDIAN NEWS
 
         let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+        // ... (The rest of the script from the previous turn)
+        // For brevity, only the changed functions are shown below. The rest of the script is the same.
         let debounceTimeout;
         let currentPage = 1, totalResults = 0, currentSearchQuery = "";
         let watchStatusChart, genreChart;
-
-        const genreIdMap = {
-            Action: 28, Adventure: 12, Animation: 16, Comedy: 35, Drama: 18,
-            Horror: 27, Romance: 10749, 'Sci-Fi': 878, Thriller: 53
-        };
-        
+        const genreIdMap = { Action: 28, Adventure: 12, Animation: 16, Comedy: 35, Drama: 18, Horror: 27, Romance: 10749, 'Sci-Fi': 878, Thriller: 53 };
         const mockUpcomingMovies = [{ imdbID: "tt1877830", Title: "The Batman Part II", Genre: "Action, Crime", Poster: "https://via.placeholder.com/220x330/A52A2A/FFFFFF?text=Upcoming+1", releaseDate: "October 3, 2025" }, { imdbID: "tt10872600", Title: "Spider-Man: Beyond the Spider-Verse", Genre: "Animation, Action", Poster: "https://via.placeholder.com/220x330/FF0000/FFFFFF?text=Upcoming+2", releaseDate: "March 29, 2026" }];
-        
         const dom = {
             themeToggle: document.getElementById('theme-toggle'), 
             trailerModal: document.getElementById('trailer-modal'),
@@ -503,6 +499,53 @@
             dom.saveNameBtn.addEventListener('click', saveProfileName);
         }
 
+        // --- UPDATED NEWS FUNCTION ---
+        async function displayMovieNews() {
+            if (dom.newsFeedContainer.children.length > 0 && dom.newsFeedContainer.children[0].tagName !== 'P') return;
+            dom.newsFeedContainer.innerHTML = `<p>Loading news...</p>`;
+
+            if (GUARDIAN_API_KEY === "YOUR_GUARDIAN_API_KEY_HERE" || !GUARDIAN_API_KEY) {
+                showNotification("Please add your Guardian API key to see live news.", "error");
+                dom.newsFeedContainer.innerHTML = `<p class="empty-state">The Guardian API Key needed for this feature.</p>`;
+                return;
+            }
+
+            try {
+                const query = encodeURIComponent('"movie" OR "film" OR "cinema"');
+                const url = `https://content.guardianapis.com/search?q=${query}&show-fields=thumbnail,trailText&order-by=newest&api-key=${GUARDIAN_API_KEY}`;
+                
+                const res = await fetch(url);
+                if (!res.ok) throw new Error("Could not fetch news articles from The Guardian.");
+
+                const data = await res.json();
+                dom.newsFeedContainer.innerHTML = "";
+                
+                if (!data.response || data.response.results.length === 0) {
+                    dom.newsFeedContainer.innerHTML = `<p class="empty-state">No recent movie news found.</p>`;
+                    return;
+                }
+                data.response.results.slice(0, 15).forEach(article => dom.newsFeedContainer.appendChild(createNewsCard(article)));
+            } catch (error) {
+                showNotification(error.message, "error");
+                dom.newsFeedContainer.innerHTML = `<p class="empty-state">Could not load news.</p>`;
+                console.error("News Fetch Error:", error);
+            }
+        }
+
+        // --- UPDATED NEWS CARD CREATION ---
+        function createNewsCard(article) {
+            const card = document.createElement('div');
+            card.className = 'news-card';
+            
+            const imageUrl = article.fields && article.fields.thumbnail ? article.fields.thumbnail : "https://via.placeholder.com/150?text=News";
+            const summary = article.fields && article.fields.trailText ? article.fields.trailText : "No description available. Click to read more.";
+            const source = article.sectionName || 'The Guardian';
+
+            card.innerHTML = `<img src="${imageUrl}" alt="News thumbnail" class="news-image"><div class="news-content"><span class="news-source">${source}</span><h3 class="news-headline">${article.webTitle}</h3><p class="news-summary">${summary}</p><a href="${article.webUrl}" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a></div>`;
+            return card;
+        }
+
+        // --- The rest of the functions are unchanged from the previous version ---
         function switchTab(tabName) { dom.sections.forEach(s => s.classList.remove("active")); dom.tabs.forEach(t => t.classList.remove("active")); document.getElementById(`${tabName}-section`).classList.add("active"); document.getElementById(`${tabName}-tab`).classList.add("active"); const tabActions = { watchlist: renderWatchlist, 'top-rated': displayTopRatedMovies, genres: initializeGenresView, news: displayMovieNews, upcoming: displayUpcomingMovies, profile: updateProfileStats }; if (tabActions[tabName]) tabActions[tabName](); }
         async function fetchOmdbMovieById(id) { try { const res = await fetch(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${id}&plot=full`); if (!res.ok) throw new Error('Network error'); return await res.json(); } catch (error) { showNotification("Error fetching movie details.", "error"); return null; } }
         function debounce(func, delay = 500) { return function(...args) { clearTimeout(debounceTimeout); debounceTimeout = setTimeout(() => func.apply(this, args), delay); }; }
@@ -523,35 +566,6 @@
                 dom.genreResultsGrid.innerHTML = "";
                 data.results.forEach(movie => dom.genreResultsGrid.appendChild(createMovieCard(movie, 'tmdb')));
             } catch(error) { showNotification(error.message, "error"); dom.genreResultsGrid.innerHTML = `<p class="empty-state">Could not load movies.</p>`; }
-        }
-        async function displayMovieNews() {
-            if (dom.newsFeedContainer.children.length > 0 && dom.newsFeedContainer.children[0].tagName !== 'P') return;
-            dom.newsFeedContainer.innerHTML = `<p>Loading news...</p>`;
-            if (NEWS_API_KEY === "YOUR_NEWS_API_KEY_HERE" || !NEWS_API_KEY) {
-                showNotification("Please add your NewsAPI key to see live news.", "error");
-                dom.newsFeedContainer.innerHTML = `<p class="empty-state">NewsAPI Key needed for this feature.</p>`;
-                return;
-            }
-            try {
-                const url = `https://newsapi.org/v2/everything?q=(movie%20OR%20cinema%20OR%20film)%20NOT%20(tv%20series)&sortBy=publishedAt&language=en&apiKey=${NEWS_API_KEY}`;
-                const res = await fetch(url);
-                if (!res.ok) throw new Error("Could not fetch news articles.");
-                const data = await res.json();
-                dom.newsFeedContainer.innerHTML = "";
-                if(data.articles.length === 0) { dom.newsFeedContainer.innerHTML = `<p class="empty-state">No recent movie news found.</p>`; return; }
-                data.articles.slice(0, 15).forEach(article => dom.newsFeedContainer.appendChild(createNewsCard(article)));
-            } catch (error) {
-                showNotification(error.message, "error");
-                dom.newsFeedContainer.innerHTML = `<p class="empty-state">Could not load news.</p>`;
-            }
-        }
-        function createNewsCard(article) {
-            const card = document.createElement('div');
-            card.className = 'news-card';
-            const imageUrl = article.urlToImage ? article.urlToImage : "https://via.placeholder.com/150?text=News";
-            const summary = article.description ? article.description : "No description available. Click to read more.";
-            card.innerHTML = `<img src="${imageUrl}" alt="News thumbnail" class="news-image"><div class="news-content"><span class="news-source">${article.source.name}</span><h3 class="news-headline">${article.title}</h3><p class="news-summary">${summary}</p><a href="${article.url}" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a></div>`;
-            return card;
         }
         function displayUpcomingMovies() { dom.upcomingGrid.innerHTML = ""; mockUpcomingMovies.forEach(movie => dom.upcomingGrid.appendChild(createMovieCard(movie, 'upcoming'))); }
         function loadProfileName() { const name = localStorage.getItem('cinevault-username') || 'Movie Fan'; dom.welcomeMessage.textContent = `Welcome, ${name}!`; dom.profileNameInput.value = name; }
