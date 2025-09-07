@@ -115,9 +115,8 @@
         background: none; font-family: 'Inter', sans-serif;
         font-size: 1rem; font-weight: 500; padding: 0.5rem 1rem;
         cursor: pointer; position: relative; text-transform: uppercase;
-        border: 1px solid var(--border-color); /* ADDED BORDER */
-        border-radius: 5px;
-        color: var(--text-color); /* MODIFIED: White in dark, black in light */
+        border: 1px solid var(--border-color); border-radius: 5px;
+        color: var(--text-color);
       }
       nav .tab.active { color: var(--accent-color); font-weight: bold; border-color: var(--accent-color); }
       nav .tab:hover { border-color: var(--accent-color); }
@@ -140,15 +139,13 @@
       .section-title { font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 2rem; }
       .section-subtitle { font-size: 1.1rem; color: var(--text-secondary-color); max-width: 600px; margin: -1.5rem auto 2rem auto; text-align: center; }
 
-      /* === SEARCH CONSOLE (RESTORED) === */
+      /* === SEARCH CONSOLE === */
       .search-console {
         display: flex; gap: 1.5rem; padding: 1rem; background-color: var(--bg-color);
         border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 2rem;
         box-shadow: 0 0 10px var(--shadow-color); align-items: center;
       }
-      .search-console input, .search-console select {
-        flex-grow: 1; /* FIXED: ensures inputs expand */
-      }
+      .search-console input, .search-console select { flex-grow: 1; }
       .filters { display: flex; gap: 0.5rem; }
       
       .watchlist-console {
@@ -175,7 +172,7 @@
         box-shadow: 0 10px 20px var(--shadow-color);
         border-color: var(--accent-color);
       }
-      .news-card, .stat-card, .chart-container, .profile-header-card { /* MODIFIED */
+      .news-card, .stat-card, .chart-container, .profile-header-card {
         background-color: var(--card-color); border: 1px solid var(--border-color);
         border-radius: 10px; padding: 1.5rem;
       }
@@ -189,23 +186,29 @@
       .genre-btn { background-color: var(--card-color); color: var(--text-secondary-color); border: 1px solid var(--border-color); border-radius: 20px; padding: 0.6rem 1.2rem; cursor: pointer; }
       .genre-btn:hover, .genre-btn.active { background-color: var(--accent-color); color: #111; border-color: var(--accent-color); }
       body.light-theme .genre-btn.active { color: white; }
-      .modal-content {
-        background-color: var(--card-color); border: 1px solid var(--border-color);
-        box-shadow: 0 0 30px var(--shadow-color);
-      }
-      .notification { background-color: var(--main-color); }
+      
+      /* === MODAL & TRAILER MODAL === */
+      .modal { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; }
+      .modal-content { background-color: var(--card-color); border: 1px solid var(--border-color); box-shadow: 0 0 30px var(--shadow-color); backdrop-filter: blur(20px); padding: 2rem; border-radius: 12px; width: 90%; max-width: 900px; position: relative; animation: modalFadeIn 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
+      .trailer-modal-content { background: #000; padding: 0; width: 90%; max-width: 960px; border: 2px solid var(--border-color); border-radius: 12px; overflow: hidden; position: relative; }
+      .trailer-modal-content .close-btn { z-index: 10; top: 0.5rem; right: 0.5rem; text-shadow: 0 0 5px #000; }
+      #trailer-container { position: relative; padding-bottom: 56.25%; /* 16:9 aspect ratio */ height: 0; overflow: hidden; }
+      #trailer-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+      @keyframes modalFadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+      .close-btn { background: none; border: none; color: var(--text-color); position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; transition: transform 0.3s; }
+      .close-btn:hover { transform: rotate(90deg); color: var(--accent-color); }
+      .modal-body { display: flex; gap: 2rem; align-items: flex-start; }
+      .modal-body img { width: 300px; height: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+      .modal-info h2 { font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; color: var(--accent-color); margin-top: 0; }
+      .modal-info p { margin: 0.5rem 0; color: var(--text-secondary-color); line-height: 1.6; }
+      .modal-info strong { color: var(--text-color); }
+      .modal-info .trailer-btn { width: 100%; margin-top: 1rem; }
+      .modal-notes { margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem; }
+      .modal-notes h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; color: var(--text-color); margin-bottom: 0.5rem; }
+      .modal-notes textarea { width: 100%; height: 100px; border-radius: 5px; padding: 0.8rem; resize: vertical; }
 
       /* === REDESIGNED PROFILE PAGE === */
-      #profile-dashboard {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: auto;
-        gap: 1.5rem;
-        grid-template-areas: 
-          "header header chart1"
-          "stat1 stat2 stat3"
-          "chart2 chart2 chart2";
-      }
+      #profile-dashboard { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto; gap: 1.5rem; grid-template-areas: "header header chart1" "stat1 stat2 stat3" "chart2 chart2 chart2"; }
       .profile-header-card { grid-area: header; }
       .profile-chart-container { grid-area: chart1; }
       #stat-card-1 { grid-area: stat1; }
@@ -220,8 +223,8 @@
       .stat-card h3 { color: var(--text-secondary-color); font-size: 1rem; margin-bottom: 0.5rem; text-transform: uppercase; }
       .stat-card p { font-size: 2.5rem; font-weight: bold; font-family: 'Orbitron', sans-serif; }
       .chart-container canvas { max-height: 350px; width: 100% !important; }
-
-      /* Other styles, mostly unchanged */
+      
+      /* ... Other styles ... */
       .watchlist-title { font-family: 'Rajdhani', sans-serif; font-size: 1.8rem; font-weight: 600; }
       .controls { display: flex; gap: 0.8rem; flex-wrap: wrap; }
       .controls .control-btn { padding: 0.8rem 1rem; border-radius: 5px; border: 1px solid var(--border-color); background-color: var(--main-color); font-size: 0.9rem; cursor: pointer; transition: background-color 0.3s, border-color 0.3s; }
@@ -235,10 +238,10 @@
       .status-watched { background-color: #004d40; color: #b3ffda; border: 1px solid var(--accent-color); }
       .status-unwatched { background-color: #4d0000; color: #ffb3b3; border: 1px solid #ff4444; }
       .action-btn { width: 100%; padding: 0.8rem; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.3s; margin-top: auto; border-radius: 5px; }
-      .add-btn, .remind-btn { background-color: var(--accent-color); color: #111; }
-      body.light-theme .add-btn, body.light-theme .remind-btn, body.light-theme #save-name-btn { color: white; }
-      .add-btn:hover:not(:disabled), .remind-btn:hover:not(:disabled) { background-color: #00b3cc; }
-      body.light-theme .add-btn:hover:not(:disabled), body.light-theme .remind-btn:hover:not(:disabled), body.light-theme #save-name-btn:hover { background-color: #0056b3; }
+      .add-btn, .remind-btn, .trailer-btn { background-color: var(--accent-color); color: #111; }
+      body.light-theme .add-btn, body.light-theme .remind-btn, body.light-theme #save-name-btn, body.light-theme .trailer-btn { color: white; }
+      .add-btn:hover:not(:disabled), .remind-btn:hover:not(:disabled), .trailer-btn:hover { background-color: #00b3cc; }
+      body.light-theme .add-btn:hover:not(:disabled), body.light-theme .remind-btn:hover:not(:disabled), body.light-theme #save-name-btn:hover, body.light-theme .trailer-btn:hover { background-color: #0056b3; }
       .action-btn:disabled { background-color: #555; cursor: not-allowed; color: #888; }
       .movie-actions { display: flex; gap: 0.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color); margin-top: 1rem;}
       .movie-actions button { flex-grow: 1; padding: 0.6rem; border-radius: 5px; border: 1px solid var(--border-color); background-color: var(--main-color); cursor: pointer; transition: background-color 0.3s; }
@@ -260,20 +263,8 @@
       .pagination-btn:hover:not(:disabled) { background-color: #2e343e; border-color: var(--accent-color); }
       .pagination-btn:disabled { cursor: not-allowed; opacity: 0.5; }
       .page-info { font-weight: 500; color: var(--text-secondary-color); }
-      .modal { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); display: none; align-items: center; justify-content: center; }
-      .modal-content { backdrop-filter: blur(20px); padding: 2rem; border-radius: 12px; width: 90%; max-width: 900px; position: relative; animation: modalFadeIn 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
-      @keyframes modalFadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-      .close-btn { background: none; border: none; color: var(--text-color); position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; transition: transform 0.3s; }
-      .close-btn:hover { transform: rotate(90deg); color: var(--accent-color); }
-      .modal-body { display: flex; gap: 2rem; align-items: flex-start; }
-      .modal-body img { width: 300px; height: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
-      .modal-info h2 { font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; color: var(--accent-color); margin-top: 0; }
-      .modal-info p { margin: 0.5rem 0; color: var(--text-secondary-color); line-height: 1.6; }
-      .modal-info strong { color: var(--text-color); }
-      .modal-notes { margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem; }
-      .modal-notes h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; color: var(--text-color); margin-bottom: 0.5rem; }
-      .modal-notes textarea { width: 100%; height: 100px; border-radius: 5px; padding: 0.8rem; resize: vertical; }
       #save-notes-btn { margin-top: 0.8rem; padding: 0.6rem 1.2rem; background-color: var(--accent-color); color: #111; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; transition: background-color 0.3s; }
+      body.light-theme #save-notes-btn { color: white; }
       #save-notes-btn:hover { background-color: #00b3cc; }
       body.light-theme #save-notes-btn:hover { background-color: #0056b3; }
       #notification-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 1002; display: flex; flex-direction: column; gap: 1rem; max-width: 300px; }
@@ -283,16 +274,8 @@
       @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
       @keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }
       
-      /* Responsive Media Queries */
       @media (max-width: 992px) { 
-        #profile-dashboard {
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-areas: 
-              "header header"
-              "stat1 stat2"
-              "stat3 chart1"
-              "chart2 chart2";
-        }
+        #profile-dashboard { grid-template-columns: repeat(2, 1fr); grid-template-areas: "header header" "stat1 stat2" "stat3 chart1" "chart2 chart2"; }
       }
       @media (max-width: 768px) {
         .welcome-title { font-size: 3rem; }
@@ -300,21 +283,11 @@
         header { flex-direction: column; gap: 1rem; }
         .tabs .tab { margin: 0.2rem; }
         .search-console { flex-direction: column; align-items: stretch; }
-        .controls { flex-wrap: wrap; justify-content: center; }
         .modal-body { flex-direction: column; align-items: center; text-align: center; }
         .modal-body img { width: 100%; max-width: 200px; }
         .news-card { flex-direction: column; text-align: center; align-items: center; }
         .read-more-btn { align-self: center; }
-        #profile-dashboard {
-            grid-template-columns: 1fr;
-            grid-template-areas: 
-              "header"
-              "stat1"
-              "stat2"
-              "stat3"
-              "chart1"
-              "chart2";
-        }
+        #profile-dashboard { grid-template-columns: 1fr; grid-template-areas: "header" "stat1" "stat2" "stat3" "chart1" "chart2"; }
       }
     </style>
 </head>
@@ -328,7 +301,7 @@
       <div class="welcome-content">
         <h1 class="welcome-title">CineVault</h1>
         <p class="welcome-text">Your portal to the cinematic universe. Search, track, and curate your ultimate movie watchlist with futuristic flair.</p>
-        <button id="explore-btn" class="explore-btn">Engage Interface</button>
+        <button id="explore-btn" class="explore-btn">Start Exploring</button>
       </div>
     </div>
 
@@ -368,7 +341,7 @@
             <div class="controls">
               <select id="sort-watchlist" aria-label="Sort Watchlist">
                 <option value="">Sort By...</option> <option value="title">Title (A-Z)</option> <option value="year">Year</option>
-                <option value="watched">Status</option>
+                <!-- <option value="watched">Status</option> -->
               </select>
               <select id="filter-watchlist" aria-label="Filter Watchlist">
                 <option value="">All</option> <option value="watched">Watched</option> <option value="unwatched">Unwatched</option>
@@ -383,7 +356,7 @@
 
         <section id="top-rated-section" class="section">
             <h2 class="section-title">Top Rated Movies</h2>
-            <p class="section-subtitle">A curated list of timeless classics with an IMDb rating of 8.5 or higher.</p>
+            <p class="section-subtitle">A live list of top-rated movies from The Movie Database.</p>
             <div id="top-rated-grid" class="movies-grid"></div>
         </section>
 
@@ -408,35 +381,30 @@
             <div id="profile-dashboard">
                 <div class="profile-header-card">
                     <h2 id="welcome-message">Welcome!</h2>
-                    <p class="section-subtitle" style="text-align: left; margin: 0 0 1rem 0;">Manage your profile name below.</p>
+                    <p class="section-subtitle" style="text-align: left; margin: 0 0 1rem 0; font-size: 1rem;">Manage your profile name below.</p>
                     <div class="profile-name-input-container">
                         <input type="text" id="profile-name-input" placeholder="Enter your name...">
                         <button id="save-name-btn">Save</button>
                     </div>
                 </div>
-
                 <div class="profile-chart-container chart-container">
                     <canvas id="watchStatusChart"></canvas>
                 </div>
-
                 <div id="stat-card-1" class="stat-card">
                     <div class="stat-icon"><i class="fas fa-film"></i></div>
                     <h3>Total Movies</h3>
                     <p id="total-movies-stat">0</p>
                 </div>
-
                 <div id="stat-card-2" class="stat-card">
                     <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
                     <h3>Movies Watched</h3>
                     <p id="watched-movies-stat">0</p>
                 </div>
-
                 <div id="stat-card-3" class="stat-card">
                     <div class="stat-icon"><i class="fas fa-clock"></i></div>
                     <h3>To Watch</h3>
                     <p id="unwatched-movies-stat">0</p>
                 </div>
-
                 <div id="genre-chart-container" class="chart-container">
                     <canvas id="genreChart"></canvas>
                 </div>
@@ -446,23 +414,32 @@
     </div>
 
     <div id="movie-modal" class="modal"><div class="modal-content"><button id="close-modal" class="close-btn"><i class="fas fa-times"></i></button><div id="modal-body-container"></div></div></div>
+    <div id="trailer-modal" class="modal"><div class="trailer-modal-content"><button id="close-trailer-modal" class="close-btn"><i class="fas fa-times"></i></button><div id="trailer-container"></div></div></div>
     <div id="notification-container"></div>
 
     <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const API_KEY = "5bc53758"; 
+        const OMDB_API_KEY = "5bc53758"; 
+        const TMDB_API_KEY = "e80eb50b68b06125a715c4bf0f7f9e06";
+        const NEWS_API_KEY = "fc16e59397aa4091a836a068ae0510eb"; // <-- IMPORTANT: ADD YOUR NEWSAPI.ORG KEY HERE
+
         let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
         let debounceTimeout;
         let currentPage = 1, totalResults = 0, currentSearchQuery = "";
         let watchStatusChart, genreChart;
 
-        const topRatedMovieIds = ['tt0111161', 'tt0068646', 'tt0468569', 'tt0071562', 'tt0167260', 'tt0108052'];
-        const genreMovieMap = { Action: ['tt0468569', 'tt1375666'], Comedy: ['tt0114709', 'tt0109830'], Horror: ['tt0081505', 'tt1457767'], 'Sci-Fi': ['tt0082971', 'tt0133093'], Romance: ['tt0119698', 'tt0332280'], Animation: ['tt0435761', 'tt1049413'] };
-        const mockMovieNews = [{ headline: "New 'Gladiator' Sequel Set Photos Reveal Epic Roman Sets", source: "Variety", summary: "First look photos from the set of the highly anticipated 'Gladiator' sequel show massive, practical sets...", imageUrl: "https://via.placeholder.com/150/8B4513/FFFFFF?text=Set+Photo", articleUrl: "#" }, { headline: "Anya Taylor-Joy Confirmed for Sci-Fi Thriller 'Starlight'", source: "Deadline", summary: "Anya Taylor-Joy is attached to lead the upcoming science-fiction thriller 'Starlight'...", imageUrl: "https://via.placeholder.com/150/4682B4/FFFFFF?text=Casting", articleUrl: "#" }];
+        const genreIdMap = {
+            Action: 28, Adventure: 12, Animation: 16, Comedy: 35, Drama: 18,
+            Horror: 27, Romance: 10749, 'Sci-Fi': 878, Thriller: 53
+        };
+        
         const mockUpcomingMovies = [{ imdbID: "tt1877830", Title: "The Batman Part II", Genre: "Action, Crime", Poster: "https://via.placeholder.com/220x330/A52A2A/FFFFFF?text=Upcoming+1", releaseDate: "October 3, 2025" }, { imdbID: "tt10872600", Title: "Spider-Man: Beyond the Spider-Verse", Genre: "Animation, Action", Poster: "https://via.placeholder.com/220x330/FF0000/FFFFFF?text=Upcoming+2", releaseDate: "March 29, 2026" }];
         
         const dom = {
             themeToggle: document.getElementById('theme-toggle'), 
+            trailerModal: document.getElementById('trailer-modal'),
+            closeTrailerModal: document.getElementById('close-trailer-modal'),
+            trailerContainer: document.getElementById('trailer-container'),
             welcomeSection: document.querySelector(".welcome-section"),
             appContainer: document.querySelector(".app-container"),
             exploreBtn: document.getElementById("explore-btn"),
@@ -499,33 +476,14 @@
             genreCanvas: document.getElementById('genreChart').getContext('2d'),
         };
 
-        // --- SCRIPT INITIALIZATION ---
         applyInitialTheme();
-        if (dom.exploreBtn) {
-            dom.exploreBtn.addEventListener("click", () => {
-                dom.welcomeSection.style.display = "none";
-                dom.appContainer.classList.remove("hidden");
-                dom.appContainer.classList.add("active");
-            });
-        }
+        if (dom.exploreBtn) { dom.exploreBtn.addEventListener("click", () => { dom.welcomeSection.style.display = "none"; dom.appContainer.classList.remove("hidden"); dom.appContainer.classList.add("active"); }); }
         setupAppEventListeners();
         loadProfileName();
         
-        // --- THEME LOGIC ---
-        function applyInitialTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') { document.body.classList.add('light-theme'); }
-        }
-        function handleThemeToggle() {
-            document.body.classList.toggle('light-theme');
-            const currentTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
-            localStorage.setItem('theme', currentTheme);
-            if (document.getElementById('profile-section').classList.contains('active')) {
-                updateProfileStats();
-            }
-        }
+        function applyInitialTheme() { const savedTheme = localStorage.getItem('theme'); if (savedTheme === 'light') { document.body.classList.add('light-theme'); } }
+        function handleThemeToggle() { document.body.classList.toggle('light-theme'); const currentTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark'; localStorage.setItem('theme', currentTheme); if (document.getElementById('profile-section').classList.contains('active')) { updateProfileStats(); } }
 
-        // --- EVENT LISTENERS ---
         function setupAppEventListeners() {
             dom.themeToggle.addEventListener('click', handleThemeToggle);
             dom.tabs.forEach(tab => tab.addEventListener("click", () => switchTab(tab.id.replace('-tab', ''))));
@@ -540,328 +498,130 @@
             dom.importBtn.addEventListener("click", () => dom.importFile.click());
             dom.importFile.addEventListener("change", importWatchlist);
             dom.closeModal.addEventListener("click", () => dom.modal.style.display = "none");
-            window.addEventListener("click", e => { if (e.target === dom.modal) dom.modal.style.display = "none"; });
+            dom.closeTrailerModal.addEventListener("click", closeTrailerModal);
+            window.addEventListener("click", e => { if (e.target === dom.modal) dom.modal.style.display = "none"; if (e.target === dom.trailerModal) closeTrailerModal(); });
             dom.saveNameBtn.addEventListener('click', saveProfileName);
         }
 
-        // --- TAB MANAGEMENT & OTHER FUNCTIONS ---
-        function switchTab(tabName) {
-            dom.sections.forEach(s => s.classList.remove("active"));
-            dom.tabs.forEach(t => t.classList.remove("active"));
-            document.getElementById(`${tabName}-section`).classList.add("active");
-            document.getElementById(`${tabName}-tab`).classList.add("active");
-            const tabActions = {
-                watchlist: renderWatchlist, 'top-rated': displayTopRatedMovies,
-                genres: initializeGenresView, news: displayMovieNews,
-                upcoming: displayUpcomingMovies, profile: updateProfileStats
-            };
-            if (tabActions[tabName]) tabActions[tabName]();
-        }
-        async function fetchMovieById(id) {
-            try {
-                const res = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${id}&plot=full`);
-                if (!res.ok) throw new Error('Network error');
-                return await res.json();
-            } catch (error) { showNotification("Error fetching movie details.", "error"); return null; }
-        }
-        function debounce(func, delay = 500) {
-            return function(...args) { clearTimeout(debounceTimeout); debounceTimeout = setTimeout(() => func.apply(this, args), delay); };
-        }
-        function handleSearch(force = false) {
-            const query = dom.searchInput.value.trim();
-            if (force && query) { currentSearchQuery = query; currentPage = 1; searchMovies(currentSearchQuery, currentPage); }
-        }
-        async function searchMovies(query, page = 1) {
-            const type = dom.typeFilter.value;
-            const year = dom.yearFilter.value;
-            let url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(query)}&page=${page}`;
-            if (type) url += `&type=${type}`;
-            if (year) url += `&y=${year}`;
-            dom.searchResultsGrid.innerHTML = `<p class="loading">Searching...</p>`;
-            dom.paginationControls.innerHTML = "";
-            try {
-                const res = await fetch(url);
-                const data = await res.json();
-                dom.searchResultsGrid.innerHTML = "";
-                if (data.Response === "True") {
-                    data.Search.forEach(movie => dom.searchResultsGrid.appendChild(createMovieCard(movie, 'search')));
-                    totalResults = parseInt(data.totalResults);
-                    renderPaginationControls();
-                } else { dom.searchResultsGrid.innerHTML = `<p class="empty-state">No results found.</p>`; }
-            } catch (error) { showNotification("Error fetching search results.", "error"); }
-        }
-        function renderPaginationControls() {
-            dom.paginationControls.innerHTML = '';
-            const totalPages = Math.ceil(totalResults / 10);
-            if (totalPages <= 1) return;
-            const createBtn = (text, icon, isDisabled, onClick) => {
-                const btn = document.createElement('button');
-                btn.innerHTML = icon.startsWith('fa-arrow-left') ? `<i class="fas ${icon}"></i> ${text}` : `${text} <i class="fas ${icon}"></i>`;
-                btn.className = 'pagination-btn';
-                btn.disabled = isDisabled;
-                btn.addEventListener('click', onClick);
-                return btn;
-            };
-            const prevBtn = createBtn('Previous', 'fa-arrow-left', currentPage === 1, () => searchMovies(currentSearchQuery, --currentPage));
-            const pageInfo = document.createElement('span');
-            pageInfo.className = 'page-info';
-            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-            const nextBtn = createBtn('Next', 'fa-arrow-right', currentPage === totalPages, () => searchMovies(currentSearchQuery, ++currentPage));
-            dom.paginationControls.append(prevBtn, pageInfo, nextBtn);
-        }
-        async function displayTopRatedMovies() {
-            if (dom.topRatedGrid.children.length > 0 && dom.topRatedGrid.children[0].tagName !== 'P') return; 
-            dom.topRatedGrid.innerHTML = `<p>Loading top rated movies...</p>`;
-            const movies = await Promise.all(topRatedMovieIds.map(id => fetchMovieById(id)));
-            dom.topRatedGrid.innerHTML = "";
-            movies.filter(m => m && m.Response === "True").forEach(movie => dom.topRatedGrid.appendChild(createMovieCard(movie, 'top-rated')));
-        }
-        function initializeGenresView() {
-            if (dom.genreButtonsContainer.children.length > 0) return;
-            Object.keys(genreMovieMap).forEach(genre => {
-                const btn = document.createElement('button');
-                btn.className = 'genre-btn';
-                btn.textContent = genre;
-                btn.dataset.genre = genre;
-                btn.addEventListener('click', () => handleGenreClick(genre));
-                dom.genreButtonsContainer.appendChild(btn);
-            });
-        }
+        function switchTab(tabName) { dom.sections.forEach(s => s.classList.remove("active")); dom.tabs.forEach(t => t.classList.remove("active")); document.getElementById(`${tabName}-section`).classList.add("active"); document.getElementById(`${tabName}-tab`).classList.add("active"); const tabActions = { watchlist: renderWatchlist, 'top-rated': displayTopRatedMovies, genres: initializeGenresView, news: displayMovieNews, upcoming: displayUpcomingMovies, profile: updateProfileStats }; if (tabActions[tabName]) tabActions[tabName](); }
+        async function fetchOmdbMovieById(id) { try { const res = await fetch(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${id}&plot=full`); if (!res.ok) throw new Error('Network error'); return await res.json(); } catch (error) { showNotification("Error fetching movie details.", "error"); return null; } }
+        function debounce(func, delay = 500) { return function(...args) { clearTimeout(debounceTimeout); debounceTimeout = setTimeout(() => func.apply(this, args), delay); }; }
+        function handleSearch(force = false) { const query = dom.searchInput.value.trim(); if (force && query) { currentSearchQuery = query; currentPage = 1; searchMovies(currentSearchQuery, currentPage); } }
+        async function searchMovies(query, page = 1) { const type = dom.typeFilter.value; const year = dom.yearFilter.value; let url = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${encodeURIComponent(query)}&page=${page}`; if (type) url += `&type=${type}`; if (year) url += `&y=${year}`; dom.searchResultsGrid.innerHTML = `<p class="loading">Searching...</p>`; dom.paginationControls.innerHTML = ""; try { const res = await fetch(url); const data = await res.json(); dom.searchResultsGrid.innerHTML = ""; if (data.Response === "True") { data.Search.forEach(movie => dom.searchResultsGrid.appendChild(createMovieCard(movie, 'omdb'))); totalResults = parseInt(data.totalResults); renderPaginationControls(); } else { dom.searchResultsGrid.innerHTML = `<p class="empty-state">No results found.</p>`; } } catch (error) { showNotification("Error fetching search results.", "error"); } }
+        function renderPaginationControls() { dom.paginationControls.innerHTML = ''; const totalPages = Math.ceil(totalResults / 10); if (totalPages <= 1) return; const createBtn = (text, icon, isDisabled, onClick) => { const btn = document.createElement('button'); btn.innerHTML = icon.startsWith('fa-arrow-left') ? `<i class="fas ${icon}"></i> ${text}` : `${text} <i class="fas ${icon}"></i>`; btn.className = 'pagination-btn'; btn.disabled = isDisabled; btn.addEventListener('click', onClick); return btn; }; const prevBtn = createBtn('Previous', 'fa-arrow-left', currentPage === 1, () => searchMovies(currentSearchQuery, --currentPage)); const pageInfo = document.createElement('span'); pageInfo.className = 'page-info'; pageInfo.textContent = `Page ${currentPage} of ${totalPages}`; const nextBtn = createBtn('Next', 'fa-arrow-right', currentPage === totalPages, () => searchMovies(currentSearchQuery, ++currentPage)); dom.paginationControls.append(prevBtn, pageInfo, nextBtn); }
+        async function displayTopRatedMovies() { if (dom.topRatedGrid.children.length > 0 && dom.topRatedGrid.children[0].tagName !== 'P') return; dom.topRatedGrid.innerHTML = `<p>Loading top rated movies...</p>`; if (TMDB_API_KEY === "YOUR_TMDB_API_KEY_HERE" || !TMDB_API_KEY) { showNotification("Please add your TMDB API key to see top rated movies.", "error"); dom.topRatedGrid.innerHTML = `<p class="empty-state">TMDB API Key needed.</p>`; return; } try { const res = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_API_KEY}&language=en-US&page=1`); if (!res.ok) throw new Error("Could not fetch top rated movies."); const data = await res.json(); dom.topRatedGrid.innerHTML = ""; data.results.forEach(movie => dom.topRatedGrid.appendChild(createMovieCard(movie, 'tmdb'))); } catch(error) { showNotification(error.message, "error"); dom.topRatedGrid.innerHTML = `<p class="empty-state">Could not load movies.</p>`; } }
+        function initializeGenresView() { if (dom.genreButtonsContainer.children.length > 0) return; Object.keys(genreIdMap).forEach(genre => { const btn = document.createElement('button'); btn.className = 'genre-btn'; btn.textContent = genre; btn.dataset.genre = genre; btn.addEventListener('click', () => handleGenreClick(genre)); dom.genreButtonsContainer.appendChild(btn); }); }
         async function handleGenreClick(genre) {
             document.querySelectorAll('.genre-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.genre === genre));
             dom.genreResultsGrid.innerHTML = `<p>Fetching ${genre} movies...</p>`;
-            const movies = await Promise.all(genreMovieMap[genre].map(id => fetchMovieById(id)));
-            dom.genreResultsGrid.innerHTML = "";
-            movies.filter(Boolean).forEach(movie => dom.genreResultsGrid.appendChild(createMovieCard(movie, 'genre')));
+            if (TMDB_API_KEY === "YOUR_TMDB_API_KEY_HERE" || !TMDB_API_KEY) { showNotification("Please add your TMDB API key to browse genres.", "error"); dom.genreResultsGrid.innerHTML = `<p class="empty-state">TMDB API Key needed.</p>`; return; }
+            try {
+                const genreId = genreIdMap[genre];
+                const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&page=1`);
+                if (!res.ok) throw new Error("Could not fetch genres.");
+                const data = await res.json();
+                dom.genreResultsGrid.innerHTML = "";
+                data.results.forEach(movie => dom.genreResultsGrid.appendChild(createMovieCard(movie, 'tmdb')));
+            } catch(error) { showNotification(error.message, "error"); dom.genreResultsGrid.innerHTML = `<p class="empty-state">Could not load movies.</p>`; }
         }
-        function displayMovieNews() {
-            if (dom.newsFeedContainer.children.length > 0) return;
+        async function displayMovieNews() {
+            if (dom.newsFeedContainer.children.length > 0 && dom.newsFeedContainer.children[0].tagName !== 'P') return;
             dom.newsFeedContainer.innerHTML = `<p>Loading news...</p>`;
-            setTimeout(() => {
+            if (NEWS_API_KEY === "YOUR_NEWS_API_KEY_HERE" || !NEWS_API_KEY) {
+                showNotification("Please add your NewsAPI key to see live news.", "error");
+                dom.newsFeedContainer.innerHTML = `<p class="empty-state">NewsAPI Key needed for this feature.</p>`;
+                return;
+            }
+            try {
+                const url = `https://newsapi.org/v2/everything?q=(movie%20OR%20cinema%20OR%20film)%20NOT%20(tv%20series)&sortBy=publishedAt&language=en&apiKey=${NEWS_API_KEY}`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error("Could not fetch news articles.");
+                const data = await res.json();
                 dom.newsFeedContainer.innerHTML = "";
-                mockMovieNews.forEach(item => dom.newsFeedContainer.appendChild(createNewsCard(item)));
-            }, 500);
+                if(data.articles.length === 0) { dom.newsFeedContainer.innerHTML = `<p class="empty-state">No recent movie news found.</p>`; return; }
+                data.articles.slice(0, 15).forEach(article => dom.newsFeedContainer.appendChild(createNewsCard(article)));
+            } catch (error) {
+                showNotification(error.message, "error");
+                dom.newsFeedContainer.innerHTML = `<p class="empty-state">Could not load news.</p>`;
+            }
         }
-        function createNewsCard(item) {
+        function createNewsCard(article) {
             const card = document.createElement('div');
             card.className = 'news-card';
-            card.innerHTML = `<img src="${item.imageUrl}" alt="News thumbnail" class="news-image"><div class="news-content"><span class="news-source">${item.source}</span><h3 class="news-headline">${item.headline}</h3><p class="news-summary">${item.summary}</p><a href="${item.articleUrl}" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a></div>`;
+            const imageUrl = article.urlToImage ? article.urlToImage : "https://via.placeholder.com/150?text=News";
+            const summary = article.description ? article.description : "No description available. Click to read more.";
+            card.innerHTML = `<img src="${imageUrl}" alt="News thumbnail" class="news-image"><div class="news-content"><span class="news-source">${article.source.name}</span><h3 class="news-headline">${article.title}</h3><p class="news-summary">${summary}</p><a href="${article.url}" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a></div>`;
             return card;
         }
-        function displayUpcomingMovies() {
-            dom.upcomingGrid.innerHTML = "";
-            mockUpcomingMovies.forEach(movie => dom.upcomingGrid.appendChild(createMovieCard(movie, 'upcoming')));
-        }
-        function loadProfileName() {
-            const name = localStorage.getItem('cinevault-username') || 'Movie Fan';
-            dom.welcomeMessage.textContent = `Welcome, ${name}!`;
-            dom.profileNameInput.value = name;
-        }
-        function saveProfileName() {
-            const name = dom.profileNameInput.value.trim();
-            if (name) { localStorage.setItem('cinevault-username', name); dom.welcomeMessage.textContent = `Welcome, ${name}!`; showNotification('Profile name updated!', 'success'); }
-        }
-        function updateProfileStats() {
-            const total = watchlist.length, watched = watchlist.filter(m => m.watched).length, unwatched = total - watched;
-            dom.totalMoviesStat.textContent = total; dom.watchedMoviesStat.textContent = watched; dom.unwatchedMoviesStat.textContent = unwatched;
-            const genreCounts = watchlist.reduce((acc, { Genre }) => {
-                if (Genre) Genre.split(', ').forEach(g => { acc[g] = (acc[g] || 0) + 1; });
-                return acc;
-            }, {});
-            const sortedGenres = Object.entries(genreCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-            renderWatchStatusChart(watched, unwatched);
-            renderGenreChart(sortedGenres);
-        }
-        function renderWatchStatusChart(watched, unwatched) {
-            if (watchStatusChart) watchStatusChart.destroy();
-            const isLight = document.body.classList.contains('light-theme');
-            watchStatusChart = new Chart(dom.watchStatusCanvas, {
-                type: 'pie',
-                data: {
-                    labels: ['Watched', 'To Watch'],
-                    datasets: [{
-                        data: [watched, unwatched],
-                        backgroundColor: [ isLight ? 'rgba(0, 123, 255, 0.7)' : 'rgba(0, 229, 255, 0.7)', 'rgba(120, 120, 120, 0.5)' ],
-                        borderColor: isLight ? '#ffffff' : '#1a1c22'
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: isLight ? '#1a1c22' : 'white' } }, title: { display: true, text: 'Watchlist Status', color: isLight ? '#1a1c22' : 'white', font: { size: 16 } } } }
-            });
-        }
-        function renderGenreChart(sortedGenres) {
-            if (genreChart) genreChart.destroy();
-            const isLight = document.body.classList.contains('light-theme');
-            genreChart = new Chart(dom.genreCanvas, {
-                type: 'bar',
-                data: {
-                    labels: sortedGenres.map(g => g[0]),
-                    datasets: [{
-                        label: 'Movies per Genre',
-                        data: sortedGenres.map(g => g[1]),
-                        backgroundColor: isLight ? 'rgba(0, 123, 255, 0.7)' : 'rgba(0, 229, 255, 0.7)'
-                    }]
-                },
-                options: {
-                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                    scales: {
-                        x: { ticks: { color: isLight ? '#1a1c22' : 'white', stepSize: 1 }, grid: { color: isLight ? '#dee2e6' : '#3b424a' } },
-                        y: { ticks: { color: isLight ? '#1a1c22' : 'white' }, grid: { color: 'transparent' } }
-                    },
-                    plugins: { legend: { display: false }, title: { display: true, text: 'Top Genres in Watchlist', color: isLight ? '#1a1c22' : 'white', font: { size: 16 } } }
-                }
-            });
-        }
+        function displayUpcomingMovies() { dom.upcomingGrid.innerHTML = ""; mockUpcomingMovies.forEach(movie => dom.upcomingGrid.appendChild(createMovieCard(movie, 'upcoming'))); }
+        function loadProfileName() { const name = localStorage.getItem('cinevault-username') || 'Movie Fan'; dom.welcomeMessage.textContent = `Welcome, ${name}!`; dom.profileNameInput.value = name; }
+        function saveProfileName() { const name = dom.profileNameInput.value.trim(); if (name) { localStorage.setItem('cinevault-username', name); dom.welcomeMessage.textContent = `Welcome, ${name}!`; showNotification('Profile name updated!', 'success'); } }
+        function updateProfileStats() { const total = watchlist.length, watched = watchlist.filter(m => m.watched).length, unwatched = total - watched; dom.totalMoviesStat.textContent = total; dom.watchedMoviesStat.textContent = watched; dom.unwatchedMoviesStat.textContent = unwatched; const genreCounts = watchlist.reduce((acc, { Genre }) => { if (Genre) Genre.split(', ').forEach(g => { acc[g] = (acc[g] || 0) + 1; }); return acc; }, {}); const sortedGenres = Object.entries(genreCounts).sort((a, b) => b[1] - a[1]).slice(0, 5); renderWatchStatusChart(watched, unwatched); renderGenreChart(sortedGenres); }
+        function renderWatchStatusChart(watched, unwatched) { if (watchStatusChart) watchStatusChart.destroy(); const isLight = document.body.classList.contains('light-theme'); watchStatusChart = new Chart(dom.watchStatusCanvas, { type: 'pie', data: { labels: ['Watched', 'To Watch'], datasets: [{ data: [watched, unwatched], backgroundColor: [ isLight ? 'rgba(0, 123, 255, 0.7)' : 'rgba(0, 229, 255, 0.7)', 'rgba(120, 120, 120, 0.5)' ], borderColor: isLight ? '#ffffff' : '#1a1c22' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: isLight ? '#1a1c22' : 'white' } }, title: { display: true, text: 'Watchlist Status', color: isLight ? '#1a1c22' : 'white', font: { size: 16 } } } } }); }
+        function renderGenreChart(sortedGenres) { if (genreChart) genreChart.destroy(); const isLight = document.body.classList.contains('light-theme'); genreChart = new Chart(dom.genreCanvas, { type: 'bar', data: { labels: sortedGenres.map(g => g[0]), datasets: [{ label: 'Movies per Genre', data: sortedGenres.map(g => g[1]), backgroundColor: isLight ? 'rgba(0, 123, 255, 0.7)' : 'rgba(0, 229, 255, 0.7)' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { color: isLight ? '#1a1c22' : 'white', stepSize: 1 }, grid: { color: isLight ? '#dee2e6' : '#3b424a' } }, y: { ticks: { color: isLight ? '#1a1c22' : 'white' }, grid: { color: 'transparent' } } }, plugins: { legend: { display: false }, title: { display: true, text: 'Top Genres in Watchlist', color: isLight ? '#1a1c22' : 'white', font: { size: 16 } } } } }); }
         
-        async function addToWatchlist(movie) {
-            if (watchlist.some(m => m.imdbID === movie.imdbID)) { showNotification(`"${movie.Title}" is already in your watchlist.`, "info"); return; }
-            const fullMovie = movie.Type ? movie : (await fetchMovieById(movie.imdbID) || movie);
-            watchlist.push({ ...fullMovie, watched: false, notes: "" }); // REMOVED RATING
-            saveAndRefresh();
-            showNotification(`Added "${movie.Title}" to your watchlist.`, "success");
-        }
-        function addReminderToWatchlist(movie) {
-            if (watchlist.some(m => m.imdbID === movie.imdbID)) return;
-            watchlist.push({ ...movie, isUpcoming: true, watched: false });
-            saveAndRefresh();
-            showNotification(`Reminder set for "${movie.Title}".`, "success");
-        }
-        function removeFromWatchlist(id) {
-            watchlist = watchlist.filter(m => m.imdbID !== id);
-            saveAndRefresh();
-            showNotification("Movie removed from watchlist.", "info");
-        }
-        function toggleWatched(id) {
-            const movie = watchlist.find(m => m.imdbID === id);
-            if (movie) { movie.watched = !movie.watched; saveAndRefresh(); showNotification(`Status updated for "${movie.Title}".`, "info"); } // REMOVED RATING RESET
-        }
+        async function addToWatchlist(movie) { if (watchlist.some(m => m.imdbID === movie.imdbID)) { showNotification(`"${movie.Title}" is already on your watchlist.`, "info"); return; } const fullMovie = movie.Type ? movie : (await fetchOmdbMovieById(movie.imdbID) || movie); if (!fullMovie.imdbID) { showNotification(`Could not add "${movie.Title}". Missing ID.`, "error"); return; } watchlist.push({ ...fullMovie, watched: false, notes: "" }); saveAndRefresh(); showNotification(`Added "${fullMovie.Title}" to your watchlist.`, "success"); }
+        function addReminderToWatchlist(movie) { if (watchlist.some(m => m.imdbID === movie.imdbID)) return; watchlist.push({ ...movie, isUpcoming: true, watched: false }); saveAndRefresh(); showNotification(`Reminder set for "${movie.Title}".`, "success"); }
+        function removeFromWatchlist(id) { watchlist = watchlist.filter(m => m.imdbID !== id); saveAndRefresh(); showNotification("Movie removed from watchlist.", "info"); }
+        function toggleWatched(id) { const movie = watchlist.find(m => m.imdbID === id); if (movie) { movie.watched = !movie.watched; saveAndRefresh(); showNotification(`Status updated for "${movie.Title}".`, "info"); } }
         
         function saveWatchlist() { localStorage.setItem("watchlist", JSON.stringify(watchlist)); }
-        function saveAndRefresh() {
-            saveWatchlist();
-            const activeTabName = document.querySelector('.tab.active')?.id.replace('-tab', '');
-            if (activeTabName === 'watchlist') renderWatchlist();
-            if (activeTabName === 'profile') updateProfileStats();
-            if (activeTabName === 'upcoming') displayUpcomingMovies();
-            if (activeTabName === 'top-rated') { dom.topRatedGrid.innerHTML = ''; displayTopRatedMovies(); }
-        }
+        function saveAndRefresh() { saveWatchlist(); const activeTabName = document.querySelector('.tab.active')?.id.replace('-tab', ''); if (activeTabName === 'watchlist') renderWatchlist(); if (activeTabName === 'profile') updateProfileStats(); if (activeTabName === 'upcoming') displayUpcomingMovies(); if (activeTabName === 'top-rated') { dom.topRatedGrid.innerHTML = ''; displayTopRatedMovies(); } }
         function renderWatchlist() {
-            dom.watchlistGrid.innerHTML = "";
-            let filtered = [...watchlist];
-            if (dom.filterWatchlist.value === "watched") filtered = filtered.filter(m => m.watched);
-            if (dom.filterWatchlist.value === "unwatched") filtered = filtered.filter(m => !m.watched);
-            if (dom.sortWatchlist.value === "title") filtered.sort((a,b) => a.Title.localeCompare(b.Title));
-            if (dom.sortWatchlist.value === "year") filtered.sort((a,b) => b.Year.localeCompare(a.Year));
-            if (dom.sortWatchlist.value === "watched") filtered.sort((a,b) => (b.watched ? 1 : 0) - (a.watched ? 1 : 0));
-            if (filtered.length === 0) { dom.watchlistGrid.innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: var(--text-secondary-color);'>Your watchlist is empty.</p>"; return; }
-            filtered.forEach(movie => dom.watchlistGrid.appendChild(createMovieCard(movie, 'watchlist')));
+            dom.watchlistGrid.innerHTML = ""; let filtered = [...watchlist]; if (dom.filterWatchlist.value === "watched") filtered = filtered.filter(m => m.watched); if (dom.filterWatchlist.value === "unwatched") filtered = filtered.filter(m => !m.watched); if (dom.sortWatchlist.value === "title") filtered.sort((a,b) => a.Title.localeCompare(b.Title)); if (dom.sortWatchlist.value === "year") filtered.sort((a,b) => b.Year.localeCompare(a.Year)); if (dom.sortWatchlist.value === "watched") filtered.sort((a,b) => (b.watched ? 1 : 0) - (a.watched ? 1 : 0)); if (filtered.length === 0) { dom.watchlistGrid.innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: var(--text-secondary-color);'>Your watchlist is empty.</p>"; return; } filtered.forEach(movie => dom.watchlistGrid.appendChild(createMovieCard(movie, 'watchlist')));
         }
         
         function createMovieCard(movie, context) {
-            const card = document.createElement("div");
-            card.className = "movie-card";
-            const inWatchlist = watchlist.some(m => m.imdbID === movie.imdbID);
-            const watchlistMovie = inWatchlist ? watchlist.find(m => m.imdbID === movie.imdbID) : {};
+            const isFromTmdb = context === 'tmdb';
+            const card = document.createElement("div"); card.className = "movie-card";
+            const title = isFromTmdb ? movie.title : movie.Title;
+            const year = isFromTmdb ? (movie.release_date ? movie.release_date.substring(0,4) : 'N/A') : movie.Year;
+            const poster = isFromTmdb ? (movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "https://via.placeholder.com/200x300?text=No+Poster") : (movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/200x300?text=No+Poster");
+            const id = isFromTmdb ? movie.id : movie.imdbID;
+            const imdb_id_check = isFromTmdb ? null : movie.imdbID;
+            const inWatchlist = watchlist.some(m => m.imdbID === imdb_id_check);
+            const watchlistMovie = inWatchlist ? watchlist.find(m => m.imdbID === id) : {};
             let detailsHTML = '';
             if (context === 'top-rated' && movie.imdbRating) detailsHTML += `<div class="imdb-rating"><i class="fas fa-star"></i>${movie.imdbRating}</div>`;
             if (watchlistMovie.isUpcoming || context === 'upcoming') detailsHTML += `<div class="release-date-tag"><i class="fas fa-calendar-alt"></i>${movie.releaseDate}</div>`;
             if (context === 'watchlist') detailsHTML += `<span class="status-badge ${watchlistMovie.watched ? "status-watched" : "status-unwatched"}">${watchlistMovie.watched ? "Watched" : "Unwatched"}</span>`;
             
-            card.innerHTML = `
-                <img src="${movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/200x280?text=No+Poster"}" alt="${movie.Title}" class="movie-poster">
-                <div class="movie-details">
-                    <h3 title="${movie.Title}">${movie.Title}</h3>
-                    <p>${movie.Year || movie.Genre || ''}</p>
-                    ${detailsHTML}
-                </div>`;
+            card.innerHTML = `<img src="${poster}" alt="${title}" class="movie-poster"><div class="movie-details"><h3 title="${title}">${title}</h3><p>${year}</p>${detailsHTML}</div>`;
+            if (context === 'watchlist') { const actions = document.createElement('div'); actions.className = 'movie-actions'; actions.innerHTML = `<button class="watch-btn" data-id="${id}"><i class="fas fa-eye${watchlistMovie.watched ? '' : '-slash'}"></i> ${watchlistMovie.watched ? 'Unwatch' : 'Watch'}</button><button class="remove-btn" data-id="${id}"><i class="fas fa-trash-alt"></i> Remove</button>`; card.querySelector('.movie-details').appendChild(actions); } else { const btn = document.createElement('button'); btn.className = 'action-btn'; if (inWatchlist) { btn.classList.add('add-btn'); btn.innerHTML = `<i class="fas fa-check"></i> In Watchlist`; btn.disabled = true; } else if (context === 'upcoming') { btn.classList.add('remind-btn'); btn.innerHTML = `<i class="fas fa-bell"></i> Remind Me`; btn.onclick = () => addReminderToWatchlist(movie); } else { btn.classList.add('add-btn'); btn.innerHTML = `<i class="fas fa-plus"></i> Add to Watchlist`; if (isFromTmdb) { btn.onclick = () => addTmdbMovieToWatchlist(id); } else { btn.onclick = () => addToWatchlist(movie); } } card.querySelector('.movie-details').appendChild(btn); }
             
-            if (context === 'watchlist') {
-                const actions = document.createElement('div');
-                actions.className = 'movie-actions';
-                actions.innerHTML = `<button class="watch-btn" data-id="${movie.imdbID}"><i class="fas fa-eye${watchlistMovie.watched ? '' : '-slash'}"></i> ${watchlistMovie.watched ? 'Unwatch' : 'Watch'}</button><button class="remove-btn" data-id="${movie.imdbID}"><i class="fas fa-trash-alt"></i> Remove</button>`;
-                card.querySelector('.movie-details').appendChild(actions);
-            } else {
-                const btn = document.createElement('button');
-                btn.className = 'action-btn';
-                if (inWatchlist) {
-                    btn.classList.add('add-btn');
-                    btn.innerHTML = `<i class="fas fa-check"></i> In Watchlist`;
-                    btn.disabled = true;
-                } else if (context === 'upcoming') {
-                    btn.classList.add('remind-btn');
-                    btn.innerHTML = `<i class="fas fa-bell"></i> Remind Me`;
-                    btn.onclick = () => addReminderToWatchlist(movie);
-                } else {
-                    btn.classList.add('add-btn');
-                    btn.innerHTML = `<i class="fas fa-plus"></i> Add to Watchlist`;
-                    btn.onclick = () => addToWatchlist(movie);
-                }
-                card.querySelector('.movie-details').appendChild(btn);
-            }
-            
-            card.querySelector("img, h3").addEventListener("click", () => openMovieModal(movie.imdbID));
-            if (context === 'watchlist') {
-                 card.querySelector(".watch-btn").addEventListener("click", () => toggleWatched(movie.imdbID));
-                 card.querySelector(".remove-btn").addEventListener("click", () => removeFromWatchlist(movie.imdbID));
-            }
+            card.querySelector("img, h3").addEventListener("click", () => isFromTmdb ? openModalForTmdb(id) : openMovieModal(id));
+            if (context === 'watchlist') { card.querySelector(".watch-btn").addEventListener("click", () => toggleWatched(id)); card.querySelector(".remove-btn").addEventListener("click", () => removeFromWatchlist(id)); }
             return card;
         }
 
+        async function openModalForTmdb(tmdbId) { const movieDetails = await fetchTmdbMovieDetails(tmdbId); if (movieDetails && movieDetails.imdb_id) { openMovieModal(movieDetails.imdb_id); } else { showNotification("Could not retrieve full details for this movie.", "error"); } }
+        async function addTmdbMovieToWatchlist(tmdbId) { const movieDetails = await fetchTmdbMovieDetails(tmdbId); if (movieDetails && movieDetails.imdb_id) { const movieObject = { Title: movieDetails.title, Year: movieDetails.release_date.substring(0, 4), imdbID: movieDetails.imdb_id, Type: 'movie', Poster: movieDetails.poster_path ? `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}` : "https://via.placeholder.com/200x300?text=No+Poster", Genre: movieDetails.genres.map(g => g.name).join(', ') }; addToWatchlist(movieObject); } else { showNotification("Could not add movie to watchlist.", "error"); } }
+        async function fetchTmdbMovieDetails(tmdbId) { try { const res = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${TMDB_API_KEY}`); if (!res.ok) throw new Error("Could not fetch details from TMDB."); return await res.json(); } catch (error) { showNotification(error.message, "error"); return null; } }
+        
         async function openMovieModal(imdbID) {
-            dom.modalBodyContainer.innerHTML = `<p class="loading"><i class="fas fa-spinner fa-spin"></i> Loading details...</p>`;
-            dom.modal.style.display = "flex";
-            const movie = await fetchMovieById(imdbID);
-            if (movie && movie.Response === "True") {
-                const watchlistMovie = watchlist.find(m => m.imdbID === movie.imdbID);
-                const notesHTML = watchlistMovie ? `<div class="modal-notes"><h3>Your Notes</h3><textarea id="movie-notes-textarea" placeholder="Add your personal notes here...">${watchlistMovie.notes || ''}</textarea><button id="save-notes-btn">Save Notes</button></div>` : '';
-                dom.modalBodyContainer.innerHTML = `<div class="modal-body"><img src="${movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/250x375?text=No+Poster"}" alt="${movie.Title}"><div class="modal-info"><h2>${movie.Title} (${movie.Year})</h2><p><strong>Genre:</strong> ${movie.Genre}</p> <p><strong>Runtime:</strong> ${movie.Runtime}</p><p><strong>Director:</strong> ${movie.Director}</p> <p><strong>Actors:</strong> ${movie.Actors}</p><p><strong>IMDb Rating:</strong> ${movie.imdbRating}</p> <p><strong>Plot:</strong> ${movie.Plot}</p>${notesHTML}</div></div>`;
-                if (watchlistMovie) {
-                    document.getElementById('save-notes-btn').addEventListener('click', () => {
-                        watchlistMovie.notes = document.getElementById('movie-notes-textarea').value;
-                        saveWatchlist(); showNotification("Notes saved!", "success");
-                    });
-                }
-            } else { dom.modalBodyContainer.innerHTML = `<p class="empty-state">Details not found.</p>`; }
+            dom.modalBodyContainer.innerHTML = `<p class="loading"><i class="fas fa-spinner fa-spin"></i> Loading details...</p>`; dom.modal.style.display = "flex"; const movie = await fetchOmdbMovieById(imdbID); if (movie && movie.Response === "True") { const watchlistMovie = watchlist.find(m => m.imdbID === movie.imdbID); const notesHTML = watchlistMovie ? `<div class="modal-notes"><h3>Your Notes</h3><textarea id="movie-notes-textarea" placeholder="Add your personal notes here...">${watchlistMovie.notes || ''}</textarea><button id="save-notes-btn">Save Notes</button></div>` : ''; dom.modalBodyContainer.innerHTML = `<div class="modal-body"><img src="${movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/250x375?text=No+Poster"}" alt="${movie.Title}"><div class="modal-info"><h2>${movie.Title} (${movie.Year})</h2><p><strong>Genre:</strong> ${movie.Genre}</p> <p><strong>Runtime:</strong> ${movie.Runtime}</p><p><strong>Director:</strong> ${movie.Director}</p> <p><strong>Actors:</strong> ${movie.Actors}</p><p><strong>IMDb Rating:</strong> ${movie.imdbRating}</p><button class="action-btn trailer-btn" data-imdbid="${imdbID}"><i class="fas fa-play-circle"></i> Watch Trailer</button><p><strong>Plot:</strong> ${movie.Plot}</p>${notesHTML}</div></div>`; document.querySelector('.trailer-btn').addEventListener('click', e => fetchAndShowTrailer(e.currentTarget.dataset.imdbid)); if (watchlistMovie) { document.getElementById('save-notes-btn').addEventListener('click', () => { watchlistMovie.notes = document.getElementById('movie-notes-textarea').value; saveWatchlist(); showNotification("Notes saved!", "success"); }); } } else { dom.modalBodyContainer.innerHTML = `<p class="empty-state">Details not found.</p>`; }
         }
-
-        function exportWatchlist() {
-            if (watchlist.length === 0) { showNotification("Watchlist is empty.", "info"); return; }
-            const blob = new Blob([JSON.stringify(watchlist, null, 2)], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url; a.download = "cinevault_watchlist.json"; a.click();
-            URL.revokeObjectURL(url);
-            showNotification("Watchlist exported!", "success");
+        function exportWatchlist() { if (watchlist.length === 0) { showNotification("Watchlist is empty.", "info"); return; } const blob = new Blob([JSON.stringify(watchlist, null, 2)], { type: "application/json" }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "cinevault_watchlist.json"; a.click(); URL.revokeObjectURL(url); showNotification("Watchlist exported!", "success"); }
+        function importWatchlist(e) { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = event => { try { const imported = JSON.parse(event.target.result); if (!Array.isArray(imported)) throw new Error("Invalid format"); let newCount = 0; imported.forEach(movie => { if (movie.imdbID && movie.Title && !watchlist.some(m => m.imdbID === movie.imdbID)) { watchlist.push({ ...movie, watched: movie.watched || false, notes: movie.notes || "" }); newCount++; } }); saveAndRefresh(); showNotification(`${newCount} new movies imported!`, "success"); } catch { showNotification("Invalid file format.", "error"); } finally { dom.importFile.value = ""; } }; reader.readAsText(file); }
+        function showNotification(message, type = "info") { const notification = document.createElement("div"); notification.className = `notification ${type}`; const icons = { success: 'fa-check-circle', info: 'fa-info-circle', error: 'fa-exclamation-circle' }; notification.innerHTML = `<i class="fas ${icons[type]}"></i> ${message}`; dom.notificationContainer.appendChild(notification); setTimeout(() => notification.remove(), 4000); }
+        async function fetchAndShowTrailer(imdbID) {
+            if (TMDB_API_KEY === "YOUR_TMDB_API_KEY_HERE" || !TMDB_API_KEY) { showNotification("Please add your TMDB API key to the script.", "error"); return; }
+            try {
+                const findRes = await fetch(`https://api.themoviedb.org/3/find/${imdbID}?api_key=${TMDB_API_KEY}&external_source=imdb_id`);
+                if (!findRes.ok) { if (findRes.status === 401) throw new Error("Invalid TMDB API Key."); else throw new Error("Could not connect to the trailer database."); }
+                const findData = await findRes.json();
+                if (!findData.movie_results || findData.movie_results.length === 0) { showNotification("Movie could not be located in the trailer database.", "info"); return; }
+                const tmdbId = findData.movie_results[0].id;
+                const videoRes = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}`);
+                if (!videoRes.ok) throw new Error("Could not fetch video data.");
+                const videoData = await videoRes.json();
+                const officialTrailer = videoData.results.find(vid => vid.type === 'Trailer' && vid.site === 'YouTube');
+                const firstVideo = videoData.results.length > 0 ? videoData.results.find(vid => vid.site === 'YouTube') : null;
+                if (officialTrailer) { openTrailerModal(officialTrailer.key); } else if (firstVideo) { openTrailerModal(firstVideo.key); } else { showNotification("A trailer for this movie could not be found.", "info"); }
+            } catch (error) { showNotification(error.message, "error"); console.error("Trailer fetch error:", error); }
         }
-        function importWatchlist(e) {
-            const file = e.target.files[0]; if (!file) return;
-            const reader = new FileReader();
-            reader.onload = event => {
-                try {
-                    const imported = JSON.parse(event.target.result);
-                    if (!Array.isArray(imported)) throw new Error("Invalid format");
-                    let newCount = 0;
-                    imported.forEach(movie => {
-                        if (movie.imdbID && movie.Title && !watchlist.some(m => m.imdbID === movie.imdbID)) {
-                            watchlist.push({ ...movie, watched: movie.watched || false, notes: movie.notes || "" });
-                            newCount++;
-                        }
-                    });
-                    saveAndRefresh();
-                    showNotification(`${newCount} new movies imported!`, "success");
-                } catch { showNotification("Invalid file format.", "error"); }
-                finally { dom.importFile.value = ""; }
-            };
-            reader.readAsText(file);
-        }
-
-        function showNotification(message, type = "info") {
-            const notification = document.createElement("div");
-            notification.className = `notification ${type}`;
-            const icons = { success: 'fa-check-circle', info: 'fa-info-circle', error: 'fa-exclamation-circle' };
-            notification.innerHTML = `<i class="fas ${icons[type]}"></i> ${message}`;
-            dom.notificationContainer.appendChild(notification);
-            setTimeout(() => notification.remove(), 4000);
-        }
+        function openTrailerModal(videoKey) { dom.trailerContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoKey}?autoplay=1&rel=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`; dom.trailerModal.style.display = 'flex'; }
+        function closeTrailerModal() { dom.trailerModal.style.display = 'none'; dom.trailerContainer.innerHTML = ''; }
     });
     </script>
 </body>
