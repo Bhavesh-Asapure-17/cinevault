@@ -5,39 +5,17 @@ CineVault is a modern, responsive web application that lets users search movies,
 It is built with HTML, CSS, and JavaScript, and integrates with OMDb API (and optionally TMDB API for trailers).
 
 ✨ Features
-
 🔍 Search Movies by title with real-time results
-
 🎬 Movie Details Modal with poster, cast, year, plot, and ratings
-
 📑 Watchlist Management (Add / Remove movies, saved in localStorage)
-
 ⭐ Filters by genre, year, rating, and language
-
 📜 Load More Pagination for extended browsing
-
 🎥 Trailer Integration via TMDB API
-
 🔔 Notifications & Alerts for user actions
-
 🌓 Dark-Themed UI with yellow highlights for a cinematic feel
-
 📱 Fully Responsive – works on mobile, tablet, and desktop
 
-🖼️ Demo Screenshots
-Search Page	Movie Details Modal	Watchlist
-
-	
-	
-
-(Replace placeholders with actual screenshots from your app)
-
 🛠️ Tech Stack
-
 Frontend: HTML, CSS, JavaScript (Vanilla)
-
-APIs: OMDb API
- & TMDB API
- (for trailers)
-
+APIs: OMDb API & TMDB API (for trailers)
 Storage: LocalStorage (persistent watchlist & preferences)
